@@ -1,5 +1,8 @@
-# tableau-style-validator
-Borrowed from [Brian Crant's tableau style validator](https://github.com/bcrant/tableau-style-validator)
+# Sample repo to test Github Actions for Tableau:
 
-Runs as an action on modified twbs
-Requires a style_guide in the 'style_guide' folder. Currently named `example_style_guide.json`
+## Tableau Format Validator
+Uses [this action](https://github.com/marketplace/actions/validate-tableau-format).
+- See the [configuration of the workflow](.github/workflows/sample_workflow_format_validator.yml)
+- The example guide lives _style_guide/example.json_
+- On a pull request, the modified .twb files will be sent for validation
+
