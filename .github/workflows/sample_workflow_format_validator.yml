@@ -1,5 +1,7 @@
 name: GitHub Actions Check Style of Modified Files
 on: [pull_request]
+env:
+  max_number_errors: 0
 jobs:
   changedfiles:
     runs-on: ubuntu-latest
@@ -84,19 +86,18 @@ jobs:
     outputs:
       number-of-errors: ${{ steps.setnumber.outputs.number-of-errors }}
     steps:
+      # Download the file to ./outputs.txt
       - uses: actions/download-artifact@v2
         with:
           name: outputs
-      - name: find-file
-        run: |
-          pwd 
-          ls -al
-          find . -name outputs.txt
       - name: set-number-of-fail-if-errors
         id: setnumber
-        run: echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
-      - name: decision      
-        if: ${{ steps.setnumber.outputs.number-of-errors }} > 0
+        run: |
+        echo "The maximum number of errors allowed is $max_number_errors"
+        echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
+      # Should we stop
+      - name: decision-pass-fail      
+        if: ${{ steps.setnumber.outputs.number-of-errors }} > ${{ env.max_number_errors }}
         run: |
           echo ${{ steps.setnumber.outputs.number-of-errors }}
           echo "::error ::Invalid formatting found, abort PR".
