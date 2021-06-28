@@ -1,7 +1,7 @@
 name: GitHub Actions Check Style of Modified Files
 on: [pull_request]
 env:
-  max_number_errors: 0
+  max_number_errors: 35
 jobs:
   changedfiles:
     runs-on: ubuntu-latest
@@ -94,6 +94,7 @@ jobs:
         id: setnumber
         run: |
           echo 'The maximum number of errors allowed is $max_number_errors'
+          env
           echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       # Should we stop
       - name: decision-pass-fail      
