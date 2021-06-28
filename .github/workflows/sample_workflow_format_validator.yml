@@ -93,7 +93,7 @@ jobs:
       - name: set-number-of-fail-if-errors
         id: setnumber
         run: |
-          echo 'The maximum number of errors allowed is $MAX_NUMBER_ERRORS'
+          echo 'The maximum number of errors allowed is ${MAX_NUMBER_ERRORS}'
           env
           echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       # Should we stop
