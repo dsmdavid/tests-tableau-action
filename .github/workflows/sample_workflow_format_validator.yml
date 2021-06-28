@@ -89,7 +89,6 @@ jobs:
           name: outputs
       - name: find-file
         run: |
-          cd /
           find . -name outputs.txt
       - name: set-number-of-fail-if-errors
         id: setnumber
