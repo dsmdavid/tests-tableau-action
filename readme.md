@@ -1,4 +1,5 @@
 # Sample repo to test Github Actions for Tableau:
+![format-validator](https://github.com/github/docs/actions/workflows/sample_workflow_format_validator.yml/badge.svg)
 
 ## Tableau Format Validator
 Uses [this action](https://github.com/marketplace/actions/validate-tableau-format).
