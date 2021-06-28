@@ -93,7 +93,8 @@ jobs:
       - name: set-number-of-fail-if-errors
         id: setnumber
         run: |
-        echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
+          echo 'The maximum number of errors allowed is $max_number_errors'
+          echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       # Should we stop
       - name: decision-pass-fail      
         if: ${{ steps.setnumber.outputs.number-of-errors }} > ${{ env.max_number_errors }}
