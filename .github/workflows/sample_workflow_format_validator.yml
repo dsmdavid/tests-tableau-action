@@ -89,6 +89,8 @@ jobs:
           name: outputs
       - name: find-file
         run: |
+          pwd 
+          ls -al
           find . -name outputs.txt
       - name: set-number-of-fail-if-errors
         id: setnumber
