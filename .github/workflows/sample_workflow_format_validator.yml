@@ -97,7 +97,7 @@ jobs:
           echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       # Should we stop
       - name: decision-pass-fail      
-        if: ${{ steps.setnumber.outputs.number-of-errors }} > env.MAX_NUMBER_ERRORS
+        if: ${{ steps.setnumber.outputs.number-of-errors > env.MAX_NUMBER_ERRORS }}
         run: |
           echo ${{ steps.setnumber.outputs.number-of-errors }}
           echo "::error ::Invalid formatting found, abort PR".
