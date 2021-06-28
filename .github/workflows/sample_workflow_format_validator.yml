@@ -1,5 +1,7 @@
 name: GitHub Actions Check Style of Modified Files
 on: [pull_request]
+env:
+  MAX_NUMBER_ERRORS: 29
 jobs:
   changedfiles:
     runs-on: ubuntu-latest
@@ -40,7 +42,7 @@ jobs:
         uses: dsmdavid/action-tableau-format-validator@v1.0.0
         with:
           # Use the output created in the step above
-          modified_files: ${{needs.changedfiles.outputs.all}}
+          modified_files: ${{ needs.changedfiles.outputs.all }}
           # Provide a path to the style guide
           path_to_json: style_guide/example.json
         # Make the resultinf file available to other jobs
@@ -61,7 +63,7 @@ jobs:
       - name: check file exists
         run: |
              find . -name outputs.txt
-             cat ./outputs.txt | grep 'processing\|INVALID\|ALERT' > summary.txt
+             cat ./outputs.txt | grep 'ALERT' > summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
@@ -77,3 +79,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: ./summary.txt
+  pass-fail:
+    name: fail-if-errors
+    runs-on: ubuntu-latest
+    needs: validate-format-twb
+    outputs:
+      number-of-errors: ${{ steps.setnumber.outputs.number-of-errors }}
+    steps:
+      # Download the file to ./outputs.txt
+      - uses: actions/download-artifact@v2
+        with:
+          name: outputs
+      - name: set-number-of-fail-if-errors
+        id: setnumber
+        run: |
+          echo 'The maximum number of errors allowed is '$MAX_NUMBER_ERRORS
+          echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
+      # Should we stop
+      - name: decision-pass-fail      
+        if: ${{ steps.setnumber.outputs.number-of-errors > env.MAX_NUMBER_ERRORS }}
+        run: |
+          echo ${{ steps.setnumber.outputs.number-of-errors }}
+          echo "::error ::Invalid formatting found, abort PR".
+          exit 1
