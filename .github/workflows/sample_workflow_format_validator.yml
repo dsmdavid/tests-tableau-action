@@ -1,7 +1,7 @@
 name: GitHub Actions Check Style of Modified Files
 on: [pull_request]
 env:
-  MAX_NUMBER_ERRORS: 35
+  MAX_NUMBER_ERRORS: 29
 jobs:
   changedfiles:
     runs-on: ubuntu-latest
