@@ -92,4 +92,7 @@ jobs:
         run: echo '::set-output name=number-of-errors::$(cat output.txt | grep ALERT | wc -l)'
       - name: decision      
         if: ${{ steps.setnumber.outputs.number-of-errors }} > 0
-        run: echo "::error ::Invalid formatting found, abort PR".
+        run: |
+          echo ${{ steps.setnumber.outputs.number-of-errors }}
+          echo "::error ::Invalid formatting found, abort PR".
+          exit 1
