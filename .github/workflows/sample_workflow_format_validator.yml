@@ -42,7 +42,7 @@ jobs:
         uses: dsmdavid/action-tableau-format-validator@v1.0.0
         with:
           # Use the output created in the step above
-          modified_files: ${{needs.changedfiles.outputs.all}}
+          modified_files: ${{ needs.changedfiles.outputs.all }}
           # Provide a path to the style guide
           path_to_json: style_guide/example.json
         # Make the resultinf file available to other jobs
@@ -93,7 +93,7 @@ jobs:
       - name: set-number-of-fail-if-errors
         id: setnumber
         run: |
-          echo 'The maximum number of errors allowed is $max_number_errors'
+          echo 'The maximum number of errors allowed is $MAX_NUMBER_ERRORS'
           env
           echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       # Should we stop
