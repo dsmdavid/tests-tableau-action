@@ -82,12 +82,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate-format-twb
     outputs:
-      number: ${{ steps.step1.outputs.test }}
+      number-of-errors: ${{ steps.setnumber.outputs.number-of-errors }}
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: outputs
       - name: set-number-of-fail-if-errors
-        run: echo '::set-output name=NUMBER_OF_ERRORS::$(cat output.txt | grep ALERT | wc -l)'
+        id: setnumber
+        run: echo '::set-output name=number-of-errors::$(cat output.txt | grep ALERT | wc -l)'
       - name: decision      
-        run: cat sample_output.txt | grep ALERT | wc -l
+        if: ${{ steps.setnumber.outputs.number-of-errors }} > 0
+        run: echo "::error ::Invalid formatting found, abort PR".
