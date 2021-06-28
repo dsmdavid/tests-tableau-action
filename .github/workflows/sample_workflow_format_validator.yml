@@ -61,7 +61,7 @@ jobs:
       - name: check file exists
         run: |
              find . -name outputs.txt
-             cat ./outputs.txt | grep 'processing\|INVALID\|ALERT' > summary.txt
+             cat ./outputs.txt | grep 'ALERT' > summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
