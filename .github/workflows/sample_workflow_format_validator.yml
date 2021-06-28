@@ -87,9 +87,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: outputs
+      - name: find-file
+        run: |
+          cd /
+          find . -name outputs.txt
       - name: set-number-of-fail-if-errors
         id: setnumber
-        run: echo '::set-output name=number-of-errors::$(cat output.txt | grep ALERT | wc -l)'
+        run: echo '::set-output name=number-of-errors::$(cat outputs.txt | grep ALERT | wc -l)'
       - name: decision      
         if: ${{ steps.setnumber.outputs.number-of-errors }} > 0
         run: |
