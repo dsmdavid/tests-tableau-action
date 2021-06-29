@@ -64,6 +64,7 @@ jobs:
              find . -name outputs.txt
              echo "processing file"
              cat ./outputs.txt | grep 'processing\|INVALID\|ALERT' > summary.txt
+             echo "adding to summary"
              echo "" >> summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
