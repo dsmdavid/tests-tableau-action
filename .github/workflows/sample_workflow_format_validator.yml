@@ -60,7 +60,9 @@ jobs:
         # Create a summary for a PR comment
       - name: check file exists
         run: |
+             echo "finding file"
              find . -name outputs.txt
+             echo "processing file"
              cat ./outputs.txt | grep 'processing\|INVALID\|ALERT' > summary.txt
              echo "" >> summary.txt
              echo "" >> summary.txt
@@ -69,7 +71,6 @@ jobs:
              echo " --------- --------- --------" >> summary.txt
              echo "Detailed review below:" >> summary.txt
              cat ./outputs.txt >> summary.txt
-             sed -i 's;\processing /github/workspace\(.*\)$;## \1;gi' summary.txt
 
       - name: comment PR
         uses: machine-learning-apps/pr-comment@master
