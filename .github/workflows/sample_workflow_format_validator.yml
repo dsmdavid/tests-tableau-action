@@ -37,7 +37,7 @@ jobs:
         ###
         #########
       - name: Validate Tableau Format
-        uses: dsmdavid/action-tableau-format-validator@v1.0.2
+        uses: dsmdavid/action-tableau-format-validator@patch-missing-output
         with:
           # Use the output created in the step above
           modified_files: ${{needs.changedfiles.outputs.all}}
